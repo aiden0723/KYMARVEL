@@ -1,0 +1,10 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+#dice img {
+    width: 100px;
+}
+#game {
+    margin-top: 20px;
+}
