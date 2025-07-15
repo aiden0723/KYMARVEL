@@ -4,11 +4,12 @@ let laps = 0;
 const usedCodes = new Set();
 
 const adminID = "administrator";
+const adminAliases = ["admin", "administrator"];  // 허용된 로그인 ID
 const adminCode = "0723";  // 관리자만 사용 가능
 const oneTimeCodes = ["1234", "5678", "9999"];  // 각 조에게 1회 발급된 코드들
 
 function login() {
-    const id = document.getElementById("userId").value.trim();
+    const id = document.getElementById("userId").value.trim().toLowerCase();
     if (id === "") {
         alert("아이디를 입력하세요.");
         return;
@@ -27,7 +28,7 @@ function checkCode() {
     }
 
     if (code === adminCode) {
-        if (currentUser === adminID) {
+        if (adminAliases.includes(currentUser)) {
             unlockDice();
         } else {
             alert("이 코드는 관리자만 사용할 수 있습니다.");
