@@ -1,7 +1,8 @@
 body {
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #fff3e0);
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    background-attachment: fixed;
     transition: background 1s ease;
     margin: 0;
     padding: 20px;
@@ -38,6 +39,32 @@ button:hover {
 
 #rollBtn {
     margin-top: 10px;
+}
+
+#rankingBoard {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#rankingBoard h2 {
+    margin-bottom: 10px;
+}
+
+#rankingList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#rankingList li {
+    padding: 5px;
+    font-weight: bold;
+    color: #444;
 }
 
 @keyframes fadeIn {

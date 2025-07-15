@@ -3,10 +3,11 @@ let currentPosition = 1;
 let laps = 0;
 const usedCodes = new Set();
 
-const adminID = "administrator";
-const adminAliases = ["admin", "administrator"];  // 허용된 로그인 ID
-const adminCode = "0723";  // 관리자만 사용 가능
-const oneTimeCodes = ["1234", "5678", "9999"];  // 각 조에게 1회 발급된 코드들
+const adminAliases = ["admin", "administrator"];
+const adminCode = "0723";
+const oneTimeCodes = ["1234", "5678", "9999"];
+
+let lapRecords = {}; // 조별 랩 기록
 
 function login() {
     const id = document.getElementById("userId").value.trim().toLowerCase();
@@ -15,6 +16,9 @@ function login() {
         return;
     }
     currentUser = id;
+    if (!(currentUser in lapRecords)) {
+        lapRecords[currentUser] = 0;
+    }
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("codeSection").style.display = "block";
     console.log("로그인:", id);
@@ -67,9 +71,22 @@ function rollDice() {
         newPosition = newPosition % 24;
         if (newPosition === 0) newPosition = 24;
         laps += 1;
+        lapRecords[currentUser] = laps;
+        updateRanking();
     }
     currentPosition = newPosition;
 
-    document.getElementById("boardImg").src = `images/판${currentPosition}.png`;
+    document.getElementById("boardImg").src = `판${currentPosition}.png`;
     document.getElementById("lapCounter").textContent = `현재 ${laps}바퀴째 진행 중`;
+}
+
+function updateRanking() {
+    const list = document.getElementById("rankingList");
+    const sorted = Object.entries(lapRecords).sort((a, b) => b[1] - a[1]);
+    list.innerHTML = "";
+    sorted.forEach(([user, count], index) => {
+        const item = document.createElement("li");
+        item.textContent = `${index + 1}위: ${user} - ${count}바퀴`;
+        list.appendChild(item);
+    });
 }

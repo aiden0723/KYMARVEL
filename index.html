@@ -25,13 +25,17 @@
     <!-- 게임 화면 -->
     <section id="gameSection" style="display:none;">
         <div id="boardArea">
-            <img src="images/판1.png" id="boardImg" alt="보드판" width="300">
+            <img src="판1.png" id="boardImg" alt="보드판" width="300">
             <p id="lapCounter">현재 0바퀴째 진행 중</p>
         </div>
         <div>
             <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Dice-1-b.svg" id="diceImg" alt="주사위" width="100">
             <br>
             <button id="rollBtn" onclick="rollDice()" disabled>🎲 주사위 굴리기</button>
+        </div>
+        <div id="rankingBoard">
+            <h2>🏆 랭킹 (조별 바퀴 수)</h2>
+            <ul id="rankingList"></ul>
         </div>
     </section>
 
