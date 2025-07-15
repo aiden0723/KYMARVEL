@@ -7,7 +7,7 @@ const adminAliases = ["admin", "administrator"];
 const adminCode = "0723";
 const oneTimeCodes = ["1234", "5678", "9999"];
 
-let lapRecords = {}; // 조별 랩 기록
+let lapRecords = {};
 
 function login() {
     const id = document.getElementById("userId").value.trim().toLowerCase();
@@ -21,7 +21,6 @@ function login() {
     }
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("codeSection").style.display = "block";
-    console.log("로그인:", id);
 }
 
 function checkCode() {
@@ -61,10 +60,7 @@ function unlockDice() {
 
 function rollDice() {
     const roll = Math.floor(Math.random() * 3) + 1;
-    const diceUrls = [
-        "1/14/Dice-1-b", "5/5f/Dice-2-b", "2/2c/Dice-3-b"
-    ];
-    document.getElementById("diceImg").src = `https://upload.wikimedia.org/wikipedia/commons/${diceUrls[roll - 1]}.svg`;
+    document.getElementById("diceImg").src = `주사위${roll}.jpg`;
 
     let newPosition = currentPosition + roll;
     if (newPosition > 24) {
@@ -78,6 +74,9 @@ function rollDice() {
 
     document.getElementById("boardImg").src = `판${currentPosition}.png`;
     document.getElementById("lapCounter").textContent = `현재 ${laps}바퀴째 진행 중`;
+
+    // 주사위는 1회만
+    document.getElementById("rollBtn").disabled = true;
 }
 
 function updateRanking() {
