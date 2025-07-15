@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>교류마블</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>교류마블 - 완성 버전</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🎲 교류마블 - 테스트</h1>
+  <h1>🎲 교류마블 - 최종버전</h1>
 
-    <!-- 로그인 화면 -->
-    <section id="loginSection">
-        <p>ID를 입력하세요.</p>
-        <input type="text" id="userId" placeholder="아이디 입력">
-        <button onclick="login()">로그인</button>
-    </section>
+  <!-- 로그인 -->
+  <section id="loginSection">
+    <p>ID를 입력하세요.</p>
+    <input type="text" id="userId" placeholder="조 이름(ID)">
+    <button onclick="login()">로그인</button>
+  </section>
 
-    <!-- 주사위 누르기 전 화면 (위치 및 랭킹 표시) -->
-    <section id="preRollSection" style="display:none;">
-        <div id="boardArea">
-            <img src="판1.png" id="boardImg" alt="보드판" width="300">
-            <p id="lapCounter">현재 0바퀴째 진행 중</p>
-            <p id="stepCounter">현재 이동한 칸 수: 0칸</p>
-        </div>
-        <div>
-            <button onclick="showAuthCode()">🎲 주사위 굴리기</button>
-        </div>
-        <div id="rankingBoard">
-            <h2>🏆 랭킹 (조별 바퀴 수)</h2>
-            <ul id="rankingList"></ul>
-        </div>
-    </section>
+  <!-- 현황 화면 -->
+  <section id="preRollSection" style="display:none;">
+    <div id="boardArea">
+      <img src="판1.png" id="boardImg" width="300">
+      <p id="lapCounter">0바퀴</p>
+      <p id="stepCounter">0칸 이동</p>
+    </div>
+    <button onclick="showAuthCode()">🎲 주사위 굴리기</button>
+  </section>
 
-    <!-- 인증 코드 입력 화면 -->
-    <section id="codeSection" style="display:none;">
-        <p>운영진이 준 4자리 인증 코드를 입력하세요.</p>
-        <input type="text" id="authCode" placeholder="4자리 코드">
-        <button onclick="checkCode()">코드 확인</button>
-    </section>
+  <!-- 인증 코드 입력 -->
+  <section id="codeSection" style="display:none;">
+    <input type="text" id="authCode" placeholder="인증 코드 입력">
+    <button onclick="checkCode()">확인</button>
+  </section>
 
-    <!-- 게임 화면 -->
-    <section id="gameSection" style="display:none;">
-        <div>
-            <img src="주사위1.jpg" id="diceImg" alt="주사위" width="100">
-            <br>
-            <button id="rollBtn" onclick="rollDice()">🎲 주사위 굴리기</button>
-        </div>
-    </section>
+  <!-- 주사위 굴리기 화면 -->
+  <section id="gameSection" style="display:none;">
+    <img src="주사위1.jpg" id="diceImg" width="100">
+    <br>
+    <button id="rollBtn" onclick="rollDice()">주사위 굴리기</button>
+  </section>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
