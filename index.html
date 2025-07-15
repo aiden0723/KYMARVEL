@@ -2,20 +2,18 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>교류마블 - 완성 버전</title>
+  <title>교류마블 - 검증판</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎲 교류마블 - 최종버전</h1>
+  <h1>🎲 교류마블 - 검증판</h1>
 
-  <!-- 로그인 -->
   <section id="loginSection">
     <p>ID를 입력하세요.</p>
     <input type="text" id="userId" placeholder="조 이름(ID)">
     <button onclick="login()">로그인</button>
   </section>
 
-  <!-- 현황 화면 -->
   <section id="preRollSection" style="display:none;">
     <div id="boardArea">
       <img src="판1.png" id="boardImg" width="300">
@@ -25,13 +23,11 @@
     <button onclick="showAuthCode()">🎲 주사위 굴리기</button>
   </section>
 
-  <!-- 인증 코드 입력 -->
   <section id="codeSection" style="display:none;">
     <input type="text" id="authCode" placeholder="인증 코드 입력">
     <button onclick="checkCode()">확인</button>
   </section>
 
-  <!-- 주사위 굴리기 화면 -->
   <section id="gameSection" style="display:none;">
     <img src="주사위1.jpg" id="diceImg" width="100">
     <br>

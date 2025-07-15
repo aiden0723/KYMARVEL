@@ -2,7 +2,6 @@ let currentUser = "";
 let currentPosition = 1;
 let laps = 0;
 let steps = 0;
-const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // <-- 교체 필요
 const adminIDs = ["admin", "administrator"];
 
 function login() {
@@ -13,24 +12,20 @@ function login() {
   }
   currentUser = input;
 
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-      const found = data.find(d => d.id === currentUser);
-      if (found) {
-        currentPosition = parseInt(found.position);
-        laps = parseInt(found.laps);
-        steps = parseInt(found.steps);
-      } else {
-        currentPosition = 1;
-        laps = 0;
-        steps = 0;
-      }
+  const saved = JSON.parse(localStorage.getItem("marble_" + currentUser));
+  if (saved) {
+    currentPosition = saved.position;
+    laps = saved.laps;
+    steps = saved.steps;
+  } else {
+    currentPosition = 1;
+    laps = 0;
+    steps = 0;
+  }
 
-      document.getElementById("loginSection").style.display = "none";
-      document.getElementById("preRollSection").style.display = "block";
-      updateBoard();
-    });
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("preRollSection").style.display = "block";
+  updateBoard();
 }
 
 function updateBoard() {
@@ -75,18 +70,12 @@ function rollDice() {
   }
   currentPosition = newPosition;
 
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      id: currentUser,
-      position: currentPosition,
-      laps: laps,
-      steps: steps
-    }),
-    headers: { "Content-Type": "application/json" }
-  });
+  localStorage.setItem("marble_" + currentUser, JSON.stringify({
+    position: currentPosition,
+    laps: laps,
+    steps: steps
+  }));
 
-  // 결과 반영 후 다시 판으로
   setTimeout(() => {
     document.getElementById("gameSection").style.display = "none";
     document.getElementById("preRollSection").style.display = "block";
