@@ -2,9 +2,11 @@ body {
     text-align: center;
     font-family: Arial, sans-serif;
 }
-#dice img {
-    width: 100px;
+
+#boardArea {
+    margin: 20px;
 }
-#game {
-    margin-top: 20px;
+
+#rollBtn {
+    margin-top: 10px;
 }

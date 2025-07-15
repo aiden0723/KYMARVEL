@@ -6,21 +6,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>교류마블</h1>
-    <section id="login">
-        <p>구글 폼에서 받은 인증 코드를 입력하세요.</p>
-        <input type="text" id="codeInput" placeholder="인증 코드 입력">
-        <button onclick="login()">확인</button>
+    <h1>교류마블 - 테스트</h1>
+
+    <!-- 로그인 화면 -->
+    <section id="loginSection">
+        <p>ID를 입력하세요.</p>
+        <input type="text" id="userId" placeholder="아이디 입력">
+        <button onclick="login()">로그인</button>
     </section>
 
-    <section id="game" style="display:none;">
-        <h2>주사위 보드판</h2>
-        <div id="dice">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Dice-1-b.svg" id="diceImg" alt="주사위" width="100">
-            <button onclick="rollDice()">주사위 굴리기</button>
+    <!-- 인증 코드 입력 화면 -->
+    <section id="codeSection" style="display:none;">
+        <p>운영진이 준 4자리 인증 코드를 입력하세요.</p>
+        <input type="text" id="authCode" placeholder="4자리 코드">
+        <button onclick="checkCode()">코드 확인</button>
+    </section>
+
+    <!-- 게임 화면 -->
+    <section id="gameSection" style="display:none;">
+        <div id="boardArea">
+            <img src="images/판1.png" id="boardImg" alt="보드판" width="300">
+            <p id="lapCounter">현재 0바퀴째 진행 중</p>
         </div>
-        <p id="position">현재 위치: 0</p>
-        <p id="points">포인트: 0</p>
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Dice-1-b.svg" id="diceImg" alt="주사위" width="100">
+            <br>
+            <button id="rollBtn" onclick="rollDice()" disabled>주사위 굴리기</button>
+        </div>
     </section>
 
     <script src="script.js"></script>
