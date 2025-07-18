@@ -2,38 +2,33 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>교류마블 - 검증판</title>
+  <title>교류마블</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎲 교류마블 - 검증판</h1>
-
+  <h1>🎲 교류마블</h1>
   <section id="loginSection">
     <p>ID를 입력하세요.</p>
     <input type="text" id="userId" placeholder="조 이름(ID)">
     <button onclick="login()">로그인</button>
   </section>
-
   <section id="preRollSection" style="display:none;">
     <div id="boardArea">
-      <img src="판1.png" id="boardImg" width="300">
+      <img src="판1.png" id="boardImg" width="500">
       <p id="lapCounter">0바퀴</p>
       <p id="stepCounter">0칸 이동</p>
     </div>
     <button onclick="showAuthCode()">🎲 주사위 굴리기</button>
   </section>
-
   <section id="codeSection" style="display:none;">
     <input type="text" id="authCode" placeholder="인증 코드 입력">
     <button onclick="checkCode()">확인</button>
   </section>
-
   <section id="gameSection" style="display:none;">
     <img src="주사위1.jpg" id="diceImg" width="100">
     <br>
     <button id="rollBtn" onclick="rollDice()">주사위 굴리기</button>
   </section>
-
   <script src="script.js"></script>
 </body>
 </html>
