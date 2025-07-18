@@ -1,7 +1,9 @@
+
 body {
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #f6d365, #fda085);
+  background: linear-gradient(145deg, #fbc2eb, #a6c1ee);
+  background-attachment: fixed;
   margin: 0;
   padding: 20px;
 }
@@ -19,4 +21,11 @@ button {
 }
 #boardArea {
   margin: 20px;
+}
+#boardImg {
+  width: 500px;
+  transition: all 0.3s ease;
+}
+#diceImg {
+  transition: all 0.2s ease;
 }
