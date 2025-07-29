@@ -1,36 +1,12 @@
-(function(){
+
 let currentUser = "";
 let currentPosition = 1;
 let laps = 0;
 let steps = 0;
 const adminIDs = ["admin", "administrator"];
-const missions = {
-  2: "자기소개서 만들고 공유",
-  3: "깜짝 랜덤 퀴즈 -고대편-",
-  4: "뒤로 1칸",
-  5: "서로 인스타 팔로우하기",
-  6: "맛집 방문 -신촌-",
-  7: "깜짝 랜덤 미션 -연대편-",
-  8: "영화 관람",
-  9: "볼링 치기",
-  10: "앞으로 3칸",
-  11: "전시회 방문",
-  12: "원데이 클래스 수강하기",
-  13: "깜짝 랜덤 미션 -빠르게 암산-",
-  14: "전시회 방문",
-  15: "캠퍼스 투어 -신촌-",
-  16: "느좋 카페 방문",
-  17: "맛집 방문 -안암-",
-  18: "스포츠 직관",
-  19: "캠퍼스 투어 -안암-",
-  20: "피크닉 가기",
-  21: "앞으로 1칸",
-  22: "술 한잔 하기",
-  23: "뒤로 1칸",
-  24: "노래방 가기"
-};
+const POST_URL = "https://script.google.com/macros/s/AKfycbzvbFBHsQj4q4wlGAgNXr3_g2xS9_jkO3kGytOt0EK5zCqVUJ2IA_7MfZaw-tqTJet0/exec";
 
-window.login = function() {
+function login() {
   const input = document.getElementById("userId").value.trim().toLowerCase();
   if (!input) {
     alert("ID를 입력하세요.");
@@ -50,7 +26,7 @@ window.login = function() {
   document.getElementById("loginSection").style.display = "none";
   document.getElementById("preRollSection").style.display = "block";
   updateBoard();
-};
+}
 
 function updateBoard() {
   document.getElementById("boardImg").src = `판${currentPosition}.png`;
@@ -58,12 +34,12 @@ function updateBoard() {
   document.getElementById("stepCounter").textContent = `현재 이동한 칸 수: ${steps}칸`;
 }
 
-window.showAuthCode = function () {
+function showAuthCode() {
   document.getElementById("preRollSection").style.display = "none";
   document.getElementById("codeSection").style.display = "block";
-};
+}
 
-window.checkCode = function () {
+function checkCode() {
   const code = document.getElementById("authCode").value.trim();
   if (code === "0723") {
     if (adminIDs.includes(currentUser)) {
@@ -74,14 +50,14 @@ window.checkCode = function () {
   } else {
     alert("잘못된 코드입니다.");
   }
-};
+}
 
 function allowRolling() {
   document.getElementById("codeSection").style.display = "none";
   document.getElementById("gameSection").style.display = "block";
 }
 
-window.rollDice = function () {
+function rollDice() {
   const diceImg = document.getElementById("diceImg");
   const rollBtn = document.getElementById("rollBtn");
   rollBtn.disabled = true;
@@ -108,7 +84,7 @@ window.rollDice = function () {
   }
 
   animateDice();
-};
+}
 
 function moveToken(roll) {
   let path = [];
@@ -158,14 +134,25 @@ function afterMove(pos) {
   }));
 
   updateBoard();
+  saveToSheet();
   document.getElementById("gameSection").style.display = "none";
   document.getElementById("preRollSection").style.display = "block";
-
-  if (missions[currentPosition]) {
-    setTimeout(() => {
-      alert(`📍미션 도착!
-${missions[currentPosition]}`);
-    }, 300);
-  }
 }
-})();
+
+function saveToSheet() {
+  fetch(POST_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      id: currentUser,
+      position: currentPosition,
+      steps: steps,
+      laps: laps
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.text())
+  .then(msg => console.log("✅ 구글 시트 저장:", msg))
+  .catch(err => console.error("❌ 저장 오류:", err));
+}
