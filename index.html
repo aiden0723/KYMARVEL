@@ -14,14 +14,14 @@
   </section>
 
   <section id="preRollSection" style="display:none;">
-    <img id="boardImg" src="판1.png">
+    <img id="boardImg" src="판1.png" width="500">
     <p id="lapCounter">0바퀴</p>
     <p id="stepCounter">0칸 이동</p>
-    <button onclick="showAuthCode()">주사위 굴리기</button>
+    <button onclick="showAuthCode()">🎲 주사위 굴리기</button>
   </section>
 
   <section id="codeSection" style="display:none;">
-    <input type="text" id="authCode" placeholder="인증 코드">
+    <input type="text" id="authCode" placeholder="인증 코드 입력">
     <button onclick="checkCode()">확인</button>
   </section>
 
@@ -30,6 +30,9 @@
     <br>
     <button id="rollBtn" onclick="rollDice()">주사위 굴리기</button>
   </section>
+
+  <!-- ✅ 랭킹 출력 영역 추가 -->
+  <div id="rankingBoard" style="margin-top:30px;"></div>
 
   <script src="script.js"></script>
 </body>
