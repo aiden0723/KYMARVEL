@@ -111,13 +111,14 @@ function moveToken(roll) {
     k++;
     if (k >= path.length) {
       clearInterval(stepInterval);
-      afterMove(currentPosition);
+      afterMove(currentPosition, roll);
     }
   }, 300);
 }
 
-function afterMove(pos) {
-  steps += 1;
+function afterMove(pos, roll) {
+  steps += roll;
+
   if (pos === 4 || pos === 23) {
     currentPosition -= 1;
     if (currentPosition <= 0) currentPosition = 24;
@@ -162,19 +163,24 @@ function saveToSheet() {
 
 function fetchRanking() {
   fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById("rankingBoard");
-      container.innerHTML = "<h3>🏁 랭킹</h3>";
-      const sorted = data.filter(d => d.id).sort((a, b) => {
-        if (b.laps !== a.laps) return b.laps - a.laps;
-        return b.steps - a.steps;
-      });
-      sorted.forEach((team, idx) => {
-        const row = document.createElement("div");
-        row.textContent = `${idx + 1}위: ${team.id} (${team.laps}바퀴, ${team.steps}칸)`;
-        container.appendChild(row);
-      });
+    .then(res => res.text())
+    .then(raw => {
+      try {
+        const data = JSON.parse(raw);
+        const container = document.getElementById("rankingBoard");
+        container.innerHTML = "<h3>🏁 랭킹</h3>";
+        const sorted = data.filter(d => d.id).sort((a, b) => {
+          if (b.laps !== a.laps) return b.laps - a.laps;
+          return b.steps - a.steps;
+        });
+        sorted.forEach((team, idx) => {
+          const row = document.createElement("div");
+          row.textContent = `${idx + 1}위: ${team.id} (${team.laps}바퀴, ${team.steps}칸)`;
+          container.appendChild(row);
+        });
+      } catch (err) {
+        console.error("랭킹 불러오기 실패 (형식 오류):", raw);
+      }
     })
-    .catch(err => console.error("랭킹 불러오기 실패:", err));
+    .catch(err => console.error("랭킹 fetch 실패:", err));
 }
