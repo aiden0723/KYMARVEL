@@ -4,7 +4,7 @@ let currentPosition = 1;
 let laps = 0;
 let steps = 0;
 const adminIDs = ["admin", "administrator"];
-const API_URL = "https://script.google.com/macros/s/AKfycbwgB-jINaqh8e_52YYXWBS_Mc9-dI3oV-qAchFAaXjlifTM27NfV7ZlKz_U5EtgELN6/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwodnu31IXYl2PAh1Km0zx4JrrKNAIYSpOAe-yfeZzXkgTDeLgJ_kHWw2dgwfaK4k3u/exec";
 
 function login() {
   const input = document.getElementById("userId").value.trim().toLowerCase();
