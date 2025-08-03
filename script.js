@@ -4,9 +4,9 @@ let currentId = "";
 let currentStep = 0;
 let currentLap = 0;
 let currentPos = 1;
-const diceCodes = {{"admin": "0723"}};
-const usedCodes = {{}};
-const missions = {{
+const diceCodes = {"admin": "0723"};
+const usedCodes = {};
+const missions = {
   2: "자기소개서 만들고 공유",
   3: "깜짝 랜덤 퀴즈 -고대편-",
   4: "뒤로 1칸",
@@ -30,6 +30,116 @@ const missions = {{
   22: "술 한잔 하기",
   23: "뒤로 1칸",
   24: "노래방 가기"
-}};
+};
 
-// 이하 동일 코드
+function login() {
+  const id = document.getElementById("idInput").value.trim();
+  if (!id) return alert("ID를 입력해주세요.");
+  fetch(API_URL + "?id=" + id)
+    .then(res => res.json())
+    .then(data => {
+      currentId = id;
+      currentPos = Number(data.position) || 1;
+      currentStep = Number(data.steps) || 0;
+      currentLap = Number(data.laps) || 0;
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("preRollSection").style.display = "block";
+      updateBoard();
+      loadRanking();
+    })
+    .catch(() => alert("로그인 실패 또는 ID 불일치"));
+}
+
+function updateBoard() {
+  const board = document.getElementById("boardArea");
+  board.innerHTML = "<img src='판" + currentPos + ".png'>";
+  document.getElementById("lapInfo").innerText = "현재 " + currentLap + "바퀴째 진행 중";
+  document.getElementById("stepInfo").innerText = "현재 이동한 칸 수: " + currentStep + "칸";
+}
+
+function showCodeInput() {
+  document.getElementById("codeSection").style.display = "block";
+}
+
+function verifyCode() {
+  const code = document.getElementById("codeInput").value;
+  if ((currentId === "admin" && code === "0723") || (!usedCodes[currentId] && code === "1234")) {
+    usedCodes[currentId] = true;
+    document.getElementById("codeSection").style.display = "none";
+    rollDice();
+  } else {
+    alert("인증 코드 오류 또는 이미 사용됨");
+  }
+}
+
+function rollDice() {
+  document.getElementById("preRollSection").style.display = "none";
+  document.getElementById("gameSection").style.display = "block";
+  const dice = document.getElementById("diceDisplay");
+  let seq = [1,2,3,2,1,3,2,1];
+  let i = 0;
+  const interval = setInterval(() => {
+    dice.innerHTML = "<img src='주사위" + seq[i] + ".jpg' style='width:80px;'>";
+    i++;
+    if (i === seq.length) {
+      const final = Math.ceil(Math.random() * 3);
+      dice.innerHTML = "<img src='주사위" + final + ".jpg' style='width:100px;'>";
+      clearInterval(interval);
+      move(final);
+    }
+  }, 150);
+}
+
+function move(num) {
+  let path = [];
+  for (let i = 1; i <= num; i++) {
+    const next = ((currentPos + i - 1) % 24) + 1;
+    path.push(next);
+  }
+  let idx = 0;
+  const board = document.getElementById("boardArea");
+  const timer = setInterval(() => {
+    board.innerHTML = "<img src='판" + path[idx] + ".png'>";
+    idx++;
+    if (idx === path.length) {
+      clearInterval(timer);
+      currentPos = path[idx - 1];
+      currentStep += num;
+      if (currentPos < (currentPos - num)) currentLap++;
+      updateBoard();
+      showMission();
+      saveToSheet();
+    }
+  }, 300);
+}
+
+function showMission() {
+  const mission = document.getElementById("mission");
+  mission.innerText = missions[currentPos] || "";
+}
+
+function saveToSheet() {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({contents: JSON.stringify({
+      id: currentId,
+      position: currentPos,
+      steps: currentStep,
+      laps: currentLap
+    })})
+  });
+}
+
+function loadRanking() {
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      let rank = data.sort((a,b) => b.steps - a.steps);
+      let html = "<h3>🏆 조별 랭킹</h3><ol>";
+      rank.forEach(r => {
+        html += "<li>" + r.id + ": " + r.steps + "칸</li>";
+      });
+      html += "</ol>";
+      document.getElementById("rankingBoard").innerHTML = html;
+    });
+}
